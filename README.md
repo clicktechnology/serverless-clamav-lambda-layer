@@ -19,7 +19,7 @@ This code is a fork of the work done by [sutt0n](https://github.com/sutt0n/serve
 3. Build the Clamav Lambda layer
 
     ```bash
-    bash ./build
+    bash ./build.sh
     ```
 
 ## Deployment
@@ -36,6 +36,12 @@ Deployment can be done through your CI/CD process, or via command line:
 
     ```bash
     sls deploy --aws-profile skorelabs
+    ```
+
+3. Remove the application using the `sls` command..
+
+    ```bash
+    sls remove --aws-profile skorelabs
     ```
 
 ## Unit Tests
@@ -56,8 +62,8 @@ aws s3 rb s3://skore-clam-antivirus --force
 ## Copy files to the bucket
 
 ```bash
-aws s3 cp /home/morgan/dev/virus-samples/eicar.com s3://skore-clam-antivirus/
-aws s3 cp /home/morgan/dev/virus-samples/eicar.com.txt s3://skore-clam-antivirus/
-aws s3 cp /home/morgan/dev/virus-samples/eicar_com.zip s3://skore-clam-antivirus/
-aws s3 cp /home/morgan/dev/virus-samples/lorem-ipsum.txt s3://skore-clam-antivirus/
+aws s3 cp file-samples/eicar.com s3://skore-clam-antivirus/
+aws s3 cp file-samples/eicar.com.txt s3://skore-clam-antivirus/
+aws s3 cp file-samples/eicar_com.zip s3://skore-clam-antivirus/
+aws s3 cp file-samples/lorem-ipsum.txt s3://skore-clam-antivirus/
 ```
