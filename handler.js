@@ -24,6 +24,26 @@ module.exports.virusScan = async (event, context) => {
       })
       .promise();
 
+    // initially tag as 'pending' before processing the file
+    await s3
+      .putObjectTagging({
+        Bucket: record.s3.bucket.name,
+        Key: record.s3.object.key,
+        Tagging: {
+          TagSet: [
+            {
+              Key: "scanned_at",
+              Value: new Date().toISOString(),
+            },
+            {
+              Key: "scan_status",
+              Value: "pending",
+            },
+          ],
+        },
+      })
+      .promise();
+
     // write file to disk
     writeFileSync(`/tmp/${record.s3.object.key}`, s3Object.Body);
 
@@ -53,7 +73,7 @@ module.exports.virusScan = async (event, context) => {
         .promise();
     } catch (err) {
       if (err.status === 1) {
-        // tag as dirty, OR you can delete it
+        // tag as infected, OR you can delete it
         await s3
           .putObjectTagging({
             Bucket: record.s3.bucket.name,
