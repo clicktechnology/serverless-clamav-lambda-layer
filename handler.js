@@ -41,7 +41,7 @@ module.exports.virusScan = async (event, context) => {
             TagSet: [
               {
                 Key: "scanned_at",
-                Value: new Date().toISOString(),S
+                Value: new Date().toISOString(),
               },
               {
                 Key: "scan_status",
@@ -62,7 +62,7 @@ module.exports.virusScan = async (event, context) => {
               TagSet: [
                 {
                   Key: "scanned_at",
-                  Value: new Date().toISOString(),S
+                  Value: new Date().toISOString(),
                 },
                 {
                   Key: "scan_status",
