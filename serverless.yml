@@ -20,7 +20,7 @@ functions:
           bucket: skore-clam-antivirus
           event: s3:ObjectCreated:*
     layers:
-      - clamav
+      - {Ref: ClamavLambdaLayer}
     timeout: 120
 
 package:
