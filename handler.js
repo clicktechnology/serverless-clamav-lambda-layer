@@ -32,6 +32,10 @@ module.exports.virusScan = async (event, context) => {
         Tagging: {
           TagSet: [
             {
+              Key: "scanned_at",
+              Value: "null",
+            },
+            {
               Key: "scan_status",
               Value: "pending",
             },
