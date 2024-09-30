@@ -44,3 +44,20 @@ There's only one unit test for our handler, but to run it you'll need to install
 
 1. run `npm i`
 2. run `npm run test`
+
+## Notes
+
+## Remove bucket by force
+
+```bash
+aws s3 rb s3://skore-clam-antivirus --force
+```
+
+## Copy files to the bucket
+
+```bash
+aws s3 cp /home/morgan/dev/virus-samples/eicar.com s3://skore-clam-antivirus/
+aws s3 cp /home/morgan/dev/virus-samples/eicar.com.txt s3://skore-clam-antivirus/
+aws s3 cp /home/morgan/dev/virus-samples/eicar_com.zip s3://skore-clam-antivirus/
+aws s3 cp /home/morgan/dev/virus-samples/lorem-ipsum.txt s3://skore-clam-antivirus/
+```
