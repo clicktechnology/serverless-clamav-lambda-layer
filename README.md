@@ -3,28 +3,38 @@
 ## Getting started
 
 1. Clone this repo
-2. Run `npm install`
-3. Build the clamav lamber layer `bash ./build`
 
-## Maintenance
+    ```bash
+    git clone git@github.com:clicktechnology/serverless-clamav-lambda-layer.git
+    ```
 
-### Code formatting
+2. Install the node packages
 
-To format your code and make it easier to read:
+    ```bash
+    npm install
+    ```
 
-- run `npm format`
+3. Build the Clamav Lambda layer
 
-### Dependency checking
+    ```bash
+    bash ./build
+    ```
 
-To ensure you have the latest versions of dependencies and check for unused dependencies:
-
-- run `npm-check`
-
-## Deploying
+## Deployment
 
 Deployment can be done through your CI/CD process, or via command line:
 
-- run `sls deploy --aws-profile <your_aws_profile>`
+1. Install the serverless framework, if you don't already have it installed.  You _may_ need `sudo` privs.
+
+    ```bash
+    npm i serverless -g
+    ```
+
+2. Deploy the application using the `sls` command..
+
+    ```bash
+    sls deploy --aws-profile skorelabs
+    ```
 
 ## Unit Tests
 
