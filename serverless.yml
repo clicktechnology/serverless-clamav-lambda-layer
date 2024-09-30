@@ -13,6 +13,7 @@ provider:
 
 functions:
   virusScan:
+    name: skore-clam-antivirus
     handler: handler.virusScan
     memorySize: 2048
     events:
@@ -20,7 +21,7 @@ functions:
           bucket: skore-clam-antivirus
           event: s3:ObjectCreated:*
     layers:
-      - {Ref: ClamavLambdaLayer}
+      - { Ref: ClamavLambdaLayer }
     timeout: 120
 
 package:
