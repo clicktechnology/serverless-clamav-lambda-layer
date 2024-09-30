@@ -1,4 +1,4 @@
-service: clambda-av
+service: skore-clam-antivirus
 
 provider:
   name: aws
@@ -9,7 +9,7 @@ provider:
       Action:
         - s3:GetObject
         - s3:PutObjectTagging
-      Resource: "arn:aws:s3:::skore-clamav/*"
+      Resource: "arn:aws:s3:::skore-clam-antivirus/*"
 
 functions:
   virusScan:
@@ -17,7 +17,7 @@ functions:
     memorySize: 2048
     events:
       - s3: 
-          bucket: skore-clamav
+          bucket: skore-clam-antivirus
           event: s3:ObjectCreated:*
     layers:
       - clamav

@@ -1,5 +1,7 @@
 # AWS ClamAV Layer & a service using it to scan files
 
+This code is a fork of the work done by [sutt0n](https://github.com/sutt0n/serverless-clamav-lambda-layer) on Github.
+
 ## Getting started
 
 1. Clone this repo
