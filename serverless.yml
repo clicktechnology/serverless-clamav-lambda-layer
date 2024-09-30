@@ -2,13 +2,14 @@ service: clambda-av
 
 provider:
   name: aws
-  runtime: nodejs14.x
+  region: eu-west-2
+  runtime: nodejs20.x
   iamRoleStatements:
     - Effect: Allow
       Action:
         - s3:GetObject
         - s3:PutObjectTagging
-      Resource: "arn:aws:s3:::clambda-av-files/*"
+      Resource: "arn:aws:s3:::skore-clamav/*"
 
 functions:
   virusScan:
@@ -16,10 +17,10 @@ functions:
     memorySize: 2048
     events:
       - s3: 
-          bucket: clambda-av-files
+          bucket: skore-clamav
           event: s3:ObjectCreated:*
     layers:
-      - {Ref: ClamavLambdaLayer}
+      - clamav
     timeout: 120
 
 package:
