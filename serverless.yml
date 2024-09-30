@@ -3,7 +3,7 @@ service: skore-clam-antivirus
 provider:
   name: aws
   region: eu-west-2
-  runtime: nodejs20.x
+  runtime: nodejs16.x
   iamRoleStatements:
     - Effect: Allow
       Action:
