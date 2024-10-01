@@ -9,7 +9,7 @@ provider:
       Action:
         - s3:GetObject
         - s3:PutObjectTagging
-      Resource: "arn:aws:s3:::skore-clam-antivirus/*"
+      Resource: "arn:aws:s3:::skore-clam-antivirus-ng/*"
 
 functions:
   virusScan:
@@ -21,18 +21,26 @@ functions:
           bucket: skore-clam-antivirus
           event: s3:ObjectCreated:*
     layers:
-      - { Ref: ClamavLambdaLayer }
+      - !Ref ClamavLambdaLayer
+      - !Ref Clamav-updatesLambdaLayer
     timeout: 120
 
 package:
   exclude:
     - node_modules/**
-    - coverage/**
+    - file-samples/**
 
 layers:
   clamav:
-    path: layer
+    name: ClamAV-layer
+    path: clamav-build-layer
+  clamav-updates:
+    name: ClamAV-virus-defs-layer
+    path: clamav-update-layer
 
 custom:
   esbuild:
     exclude: []
+
+plugins:
+  - serverless-ignore

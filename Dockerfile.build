@@ -1,0 +1,58 @@
+FROM amazonlinux:2
+WORKDIR /home/build
+RUN set -e
+
+ARG IMAGE_NAME
+
+RUN echo "Prepping ClamAV build and virus defintion updates.." &&\
+    rm -rf bin &&\
+    rm -rf lib &&\
+    yum update -y &&\
+    amazon-linux-extras install epel -y &&\
+    yum install -y cpio yum-utils tar.x86_64 gzip zip &&\
+    yumdownloader -x \*i686 --archlist=x86_64 clamav &&\
+    rpm2cpio clamav-0*.rpm | cpio -vimd &&\
+    yumdownloader -x \*i686 --archlist=x86_64 clamav-lib &&\
+    rpm2cpio clamav-lib*.rpm | cpio -vimd &&\
+    yumdownloader -x \*i686 --archlist=x86_64 clamav-update &&\
+    rpm2cpio clamav-update*.rpm | cpio -vimd &&\
+    yumdownloader -x \*i686 --archlist=x86_64 json-c &&\
+    rpm2cpio json-c*.rpm | cpio -vimd &&\
+    yumdownloader -x \*i686 --archlist=x86_64 pcre2 &&\
+    rpm2cpio pcre*.rpm | cpio -vimd &&\
+    yumdownloader -x \*i686 --archlist=x86_64 libtool-ltdl &&\
+    rpm2cpio libtool-ltdl*.rpm | cpio -vimd &&\
+    yumdownloader -x \*i686 --archlist=x86_64 libxml2 &&\
+    rpm2cpio libxml2*.rpm | cpio -vimd &&\
+    yumdownloader -x \*i686 --archlist=x86_64 bzip2-libs &&\
+    rpm2cpio bzip2-libs*.rpm | cpio -vimd &&\
+    yumdownloader -x \*i686 --archlist=x86_64 xz-libs &&\
+    rpm2cpio xz-libs*.rpm | cpio -vimd &&\
+    yumdownloader -x \*i686 --archlist=x86_64 libprelude &&\
+    rpm2cpio libprelude*.rpm | cpio -vimd &&\
+    yumdownloader -x \*i686 --archlist=x86_64 gnutls &&\
+    rpm2cpio gnutls*.rpm | cpio -vimd &&\
+    yumdownloader -x \*i686 --archlist=x86_64 nettle &&\
+    rpm2cpio nettle*.rpm | cpio -vimd &&\
+    mkdir -p bin &&\
+    mkdir -p lib &&\
+    mkdir -p var/lib/clamav &&\
+    chmod -R 777 var/lib/clamav
+
+COPY ./freshclam.conf .
+
+RUN cp usr/bin/clamscan usr/bin/freshclam bin/. &&\
+    cp usr/lib64/* lib/. &&\
+    cp freshclam.conf bin/freshclam.conf &&\
+    yum install shadow-utils.x86_64 -y &&\
+    groupadd clamav &&\
+    useradd -g clamav -s /bin/false -c "Clam Antivirus" clamav &&\
+    useradd -g clamav -s /bin/false -c "Clam Antivirus" clamupdate &&\
+    chmod -R 777 var/lib/clamav
+
+RUN LD_LIBRARY_PATH=./lib ./bin/freshclam --config-file=bin/freshclam.conf
+
+RUN zip -r ${IMAGE_NAME}_lambda_layer.zip bin &&\
+    zip -r ${IMAGE_NAME}_lambda_layer.zip lib &&\
+    zip -r ${IMAGE_NAME}_lambda_layer.zip var -x var/lib/**\* &&\
+    zip -r ${IMAGE_NAME}_lambda_layer.zip etc

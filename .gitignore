@@ -6,3 +6,5 @@ layer/etc
 layer/var
 coverage/
 .DS_Store
+clamav-build-layer
+clamav-update-layer

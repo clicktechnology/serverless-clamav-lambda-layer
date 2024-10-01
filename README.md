@@ -19,7 +19,7 @@ This code is a fork of the work done by [sutt0n](https://github.com/sutt0n/serve
 3. Build the Clamav Lambda layer
 
     ```bash
-    bash ./build.sh
+    bash ./build.sh {build|update}
     ```
 
 ## Deployment

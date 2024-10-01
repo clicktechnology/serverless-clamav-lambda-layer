@@ -1,0 +1,8 @@
+build.sh
+.gitignore
+.slsignore
+.npmcheckrc
+handler.test.json
+package-lock.json
+package.json
+serverless.yml
